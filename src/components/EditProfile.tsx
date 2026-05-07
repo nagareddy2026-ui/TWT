@@ -15,7 +15,7 @@ export default function EditProfile() {
   const [city, setCity] = useState("");
   const [photoURL, setPhotoURL] = useState("");
 
-  // 📥 Load existing profile
+  // LOAD PROFILE
   useEffect(() => {
     const loadProfile = async () => {
       if (!user) return;
@@ -39,7 +39,7 @@ export default function EditProfile() {
     loadProfile();
   }, [user]);
 
-  // 💾 Save profile
+  // SAVE PROFILE
   const handleSave = async () => {
     if (!user) {
       alert("User not logged in");
@@ -65,72 +65,95 @@ export default function EditProfile() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-10">
-          <BackButton />
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-violet-100 to-pink-100 p-6">
 
-      <h1 className="text-3xl font-bold mb-6">
-        ✏️ Edit Profile
-      </h1>
+      <BackButton />
 
-      <div className="bg-white p-6 rounded-xl shadow max-w-md">
+      <div className="flex justify-center items-center mt-10">
 
-        {/* Profile Image Preview */}
-        <div className="flex justify-center mb-4">
-          {photoURL ? (
-            <img
-              src={photoURL}
-              alt="Profile"
-              className="w-24 h-24 rounded-full object-cover"
+        <div className="bg-white shadow-xl rounded-3xl p-8 w-full max-w-md">
+
+          {/* TITLE */}
+          <h1 className="text-3xl font-bold text-center text-violet-600 mb-8">
+            ✏️ Edit Profile
+          </h1>
+
+          {/* PROFILE IMAGE */}
+          <div className="flex justify-center mb-6">
+
+            <label className="cursor-pointer relative">
+
+              {photoURL ? (
+                <img
+                  src={photoURL}
+                  alt="Profile"
+                  className="w-28 h-28 rounded-full object-cover border-4 border-violet-500 shadow-md"
+                />
+              ) : (
+                <div className="w-28 h-28 bg-violet-200 rounded-full flex items-center justify-center text-violet-700 font-semibold">
+                  Add Photo
+                </div>
+              )}
+
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+
+                  if (file) {
+                    const imageUrl = URL.createObjectURL(file);
+                    setPhotoURL(imageUrl);
+                  }
+                }}
+              />
+            </label>
+
+          </div>
+
+          {/* INPUTS */}
+          <div className="space-y-4">
+
+            <input
+              className="w-full border border-gray-300 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-400"
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
-          ) : (
-            <div className="w-24 h-24 bg-gray-300 rounded-full" />
-          )}
+
+            <input
+              className="w-full border border-gray-300 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-400"
+              placeholder="Bio"
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+            />
+
+            <input
+              className="w-full border border-gray-300 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-400"
+              placeholder="Phone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+
+            <input
+              className="w-full border border-gray-300 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-400"
+              placeholder="City"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+            />
+
+          </div>
+
+          {/* SAVE BUTTON */}
+          <button
+            onClick={handleSave}
+            className="w-full mt-8 bg-violet-600 hover:bg-violet-700 text-white py-3 rounded-xl font-semibold transition"
+          >
+            Save Profile
+          </button>
+
         </div>
-
-        {/* Inputs */}
-        <input
-          className="w-full border p-2 mb-3"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-
-        <input
-          className="w-full border p-2 mb-3"
-          placeholder="Bio"
-          value={bio}
-          onChange={(e) => setBio(e.target.value)}
-        />
-
-        <input
-          className="w-full border p-2 mb-3"
-          placeholder="Phone"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-        />
-
-        <input
-          className="w-full border p-2 mb-3"
-          placeholder="City"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-        />
-
-        <input
-          className="w-full border p-2 mb-3"
-          placeholder="Profile Image URL"
-          value={photoURL}
-          onChange={(e) => setPhotoURL(e.target.value)}
-        />
-
-        {/* Save Button */}
-        <button
-          onClick={handleSave}
-          className="w-full bg-violet-600 text-white py-2 rounded hover:bg-violet-700"
-        >
-          Save Profile
-        </button>
-
       </div>
     </div>
   );

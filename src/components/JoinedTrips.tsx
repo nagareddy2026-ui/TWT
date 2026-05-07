@@ -39,8 +39,10 @@ export default function JoinedTrips() {
         }));
 
         setTrips(data);
+
       } catch (err) {
         console.error(err);
+
       } finally {
         setLoading(false);
       }
@@ -50,42 +52,99 @@ export default function JoinedTrips() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-10">
-          <BackButton />
+    <div
+      className="min-h-screen bg-cover bg-center bg-fixed p-10"
+      style={{
+        backgroundImage:
+          "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('https://images.unsplash.com/photo-1493558103817-58b2924bce98')",
+      }}
+    >
+      <BackButton />
 
-      <h1 className="text-3xl font-bold mb-6">
-        🤝 Joined Trips
-      </h1>
+      {/* HEADING */}
+      <div className="text-center mb-12">
 
-      {loading && <p>Loading...</p>}
+        <h1 className="text-5xl font-extrabold text-white drop-shadow-lg">
+          🤝 Joined Trips
+        </h1>
 
-      {!loading && trips.length === 0 && (
-        <p className="text-gray-500">
-          You haven’t joined any trips yet.
+        <p className="text-gray-200 text-lg mt-4">
+          Adventures you joined with fellow travelers 🌍
         </p>
+
+      </div>
+
+      {/* LOADING */}
+      {loading && (
+        <div className="flex justify-center items-center mt-20">
+          <p className="text-white text-2xl">
+            Loading your joined trips...
+          </p>
+        </div>
       )}
 
-      <div className="grid md:grid-cols-3 gap-6 mt-6">
+      {/* EMPTY STATE */}
+      {!loading && trips.length === 0 && (
+        <div className="flex justify-center items-center mt-20">
+
+          <div className="bg-white/20 backdrop-blur-lg border border-white/20 rounded-3xl p-10 text-center shadow-2xl">
+
+            <h2 className="text-3xl font-bold text-white">
+              No Joined Trips Yet 😔
+            </h2>
+
+            <p className="text-gray-200 mt-4">
+              Explore amazing journeys and join new adventures!
+            </p>
+
+          </div>
+
+        </div>
+      )}
+
+      {/* TRIPS GRID */}
+      <div className="grid md:grid-cols-3 gap-8 mt-10">
 
         {trips.map((trip) => (
           <div
             key={trip.id}
-            className="bg-white p-6 rounded-xl shadow"
+            className="bg-white/20 backdrop-blur-lg border border-white/20 rounded-3xl shadow-2xl p-6 text-white hover:scale-105 transition duration-300"
           >
-            <h2 className="text-xl font-bold">{trip.title}</h2>
+            {/* TITLE */}
+            <h2 className="text-2xl font-bold mb-4">
+              ✈️ {trip.title}
+            </h2>
 
-            <p className="mt-2">📍 {trip.destination}</p>
-            <p>📅 {trip.date}</p>
+            {/* DESTINATION */}
+            <p className="text-lg mb-2">
+              📍 {trip.destination}
+            </p>
 
+            {/* DATE */}
+            <p className="text-lg mb-3">
+              📅 {trip.date}
+            </p>
+
+            {/* DESCRIPTION */}
             {trip.description && (
-              <p className="text-gray-500 text-sm mt-2">
+              <p className="text-gray-200 text-sm mb-4 line-clamp-3">
                 {trip.description}
               </p>
             )}
 
-            <p className="text-sm text-gray-500 mt-2">
-              👥 {trip.members?.length || 0} / {trip.maxMembers || 0}
+            {/* MEMBERS */}
+            <p className="text-sm text-gray-300 mt-4">
+              👥 {trip.members?.length || 0} /{" "}
+              {trip.maxMembers || 0} Members
             </p>
+
+            {/* STATUS */}
+            <div className="mt-6">
+              <span className="bg-green-500/80 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                Joined Successfully ✅
+              </span>
+            </div>
+
           </div>
         ))}
 

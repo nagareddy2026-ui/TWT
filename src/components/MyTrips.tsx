@@ -54,7 +54,7 @@ export default function MyTrips() {
     return () => unsubscribe();
   }, []);
 
-  // ❌ Delete Trip
+  // DELETE TRIP
   const handleDelete = async (id: string) => {
     const confirmDelete = confirm("Delete this trip?");
     if (!confirmDelete) return;
@@ -65,46 +65,110 @@ export default function MyTrips() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-10">
-          <BackButton />
+    <div
+      className="min-h-screen bg-cover bg-center bg-fixed p-10"
+      style={{
+        backgroundImage:
+          "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee')",
+      }}
+    >
+      <BackButton />
 
-      <h1 className="text-3xl font-bold mb-6">📍 My Trips</h1>
+      {/* HEADING */}
+      <div className="text-center mb-12">
+        <h1 className="text-5xl font-extrabold text-white drop-shadow-lg">
+          📍 My Trips
+        </h1>
 
-      {loading && <p>Loading...</p>}
+        <p className="text-gray-200 text-lg mt-4">
+          Manage your travel adventures and memories ✈️
+        </p>
+      </div>
 
-      {!loading && trips.length === 0 && (
-        <p>No trips created yet</p>
+      {/* LOADING */}
+      {loading && (
+        <div className="flex justify-center items-center">
+          <p className="text-white text-2xl">
+            Loading your trips...
+          </p>
+        </div>
       )}
 
-      <div className="grid md:grid-cols-3 gap-6">
+      {/* NO TRIPS */}
+      {!loading && trips.length === 0 && (
+        <div className="flex justify-center items-center mt-20">
+          <div className="bg-white/20 backdrop-blur-lg p-10 rounded-3xl text-center border border-white/20">
+            <h2 className="text-3xl font-bold text-white">
+              No Trips Created Yet 😔
+            </h2>
+
+            <p className="text-gray-200 mt-3">
+              Start planning your dream journey now!
+            </p>
+
+            <button
+              onClick={() => navigate("/create-trip")}
+              className="mt-6 bg-violet-600 hover:bg-violet-700 text-white px-6 py-3 rounded-xl font-bold transition"
+            >
+              ➕ Create Trip
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* TRIPS GRID */}
+      <div className="grid md:grid-cols-3 gap-8">
 
         {trips.map((trip) => (
           <div
             key={trip.id}
-            className="bg-white p-6 rounded-xl shadow"
+            className="bg-white/20 backdrop-blur-lg border border-white/20 rounded-3xl shadow-2xl p-6 text-white hover:scale-105 transition duration-300"
           >
-            <h2 className="text-xl font-bold">{trip.title}</h2>
+            {/* TITLE */}
+            <h2 className="text-2xl font-bold mb-4">
+              ✈️ {trip.title}
+            </h2>
 
-            <p className="mt-2">📍 {trip.destination}</p>
-            <p>📅 {trip.date}</p>
+            {/* DESTINATION */}
+            <p className="text-lg mb-2">
+              📍 {trip.destination}
+            </p>
 
-            {/* Buttons */}
-            <div className="flex gap-3 mt-4">
+            {/* DATE */}
+            <p className="text-lg mb-3">
+              📅 {trip.date}
+            </p>
 
-              {/* ✏️ EDIT */}
+            {/* DESCRIPTION */}
+            {trip.description && (
+              <p className="text-gray-200 text-sm mb-4 line-clamp-3">
+                {trip.description}
+              </p>
+            )}
+
+            {/* MEMBERS */}
+            <p className="text-sm text-gray-300 mb-6">
+              👥 {trip.members?.length || 0} /{" "}
+              {trip.maxMembers || 0} Members
+            </p>
+
+            {/* BUTTONS */}
+            <div className="flex gap-4">
+
+              {/* EDIT */}
               <button
                 onClick={() => navigate(`/edit-trip/${trip.id}`)}
-                className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
+                className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded-xl font-semibold transition"
               >
-                Edit
+                ✏️ Edit
               </button>
 
-              {/* ❌ DELETE */}
+              {/* DELETE */}
               <button
                 onClick={() => handleDelete(trip.id)}
-                className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+                className="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 rounded-xl font-semibold transition"
               >
-                Delete
+                ❌ Delete
               </button>
 
             </div>

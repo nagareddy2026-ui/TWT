@@ -90,7 +90,13 @@ export default function TripDetails() {
   if (!trip) return <p className="p-10">Trip not found</p>;
 
   return (
-    <div className="min-h-screen bg-gray-100 p-10">
+    <div
+  className="min-h-screen bg-cover bg-center bg-fixed p-10"
+  style={{
+    backgroundImage:
+      "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('https://images.unsplash.com/photo-1501785888041-af3ef285b470')",
+  }}
+>
           <BackButton />
 
       <div className="bg-white p-6 rounded-xl shadow max-w-lg">

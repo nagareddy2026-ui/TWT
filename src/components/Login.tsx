@@ -3,11 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../lib/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
+
 export default function Login() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -20,11 +22,9 @@ export default function Login() {
 
       alert("Login successful ✅");
 
-      // ✅ redirect
       navigate("/home");
 
     } catch (err: unknown) {
-      // ✅ Type-safe error handling
       if (err instanceof Error) {
         console.error(err);
         alert(err.message);
@@ -35,68 +35,128 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-violet-500 text-white">
+    <div
+      className="min-h-screen bg-cover bg-center flex flex-col"
+      style={{
+        backgroundImage:
+          "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e')",
+      }}
+    >
 
       {/* NAVBAR */}
-      <div className="flex justify-between items-center px-10 py-4 bg-white text-black shadow">
-        <h1 className="text-orange-500 text-2xl font-bold italic">
-          Travel Together
+      <div className="flex justify-between items-center px-10 py-5 bg-white/10 backdrop-blur-lg border-b border-white/20">
+
+        <h1 className="text-3xl font-extrabold text-white">
+          ✈️ Travel Together
         </h1>
 
-        <div className="flex items-center gap-6">
-          <span>Home</span>
-          <span>Features</span>
+        <div className="flex items-center gap-6 text-white">
 
-          <Link to="/signup" className="border px-4 py-1 rounded">
+          <span className="cursor-pointer hover:text-yellow-300 transition">
+            Home
+          </span>
+
+          <span className="cursor-pointer hover:text-yellow-300 transition">
+            Features
+          </span>
+
+          <Link
+            to="/signup"
+            className="border border-white px-5 py-2 rounded-xl hover:bg-white hover:text-black transition"
+          >
             Sign Up
           </Link>
+
         </div>
       </div>
 
-      {/* HEADER */}
-      <div className="text-center mt-10">
-        <h1 className="text-3xl font-bold">Log In</h1>
-        <p className="mt-2">Welcome back 👋</p>
-      </div>
+      {/* LOGIN SECTION */}
+      <div className="flex flex-1 justify-center items-center px-4">
 
-      {/* LOGIN CARD */}
-      <div className="flex justify-center mt-10">
-        <div className="bg-white text-black p-8 rounded-lg shadow w-[400px]">
+        <div className="bg-white/15 backdrop-blur-xl border border-white/20 shadow-2xl rounded-3xl p-10 w-full max-w-md text-white">
+
+          {/* TITLE */}
+          <div className="text-center mb-8">
+
+            <h1 className="text-4xl font-extrabold">
+              Welcome Back 👋
+            </h1>
+
+            <p className="text-gray-200 mt-3">
+              Login and continue your travel journey ✈️
+            </p>
+
+          </div>
 
           {/* EMAIL */}
-          <input
-            type="email"
-            placeholder="Email *"
-            className="border p-2 w-full mb-4"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+          <div className="mb-5">
+
+            <label className="block mb-2 text-sm">
+              Email
+            </label>
+
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="w-full p-3 rounded-xl bg-white/20 border border-white/30 placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+
+          </div>
 
           {/* PASSWORD */}
-          <input
-            type="password"
-            placeholder="Password *"
-            className="border p-2 w-full mb-4"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <div className="mb-6">
 
-          {/* BUTTON */}
+            <label className="block mb-2 text-sm">
+              Password
+            </label>
+
+            <div className="relative">
+
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter your password"
+                className="w-full p-3 rounded-xl bg-white/20 border border-white/30 placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-3 text-xl"
+              >
+                {showPassword ? "🙈" : "👁️"}
+              </button>
+
+            </div>
+
+          </div>
+
+          {/* LOGIN BUTTON */}
           <button
             onClick={handleLogin}
-            className="bg-green-500 text-white w-full py-3 rounded hover:bg-green-600"
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-semibold text-lg transition duration-300 shadow-lg"
           >
             Log In
           </button>
-        </div>
-      </div>
 
-      {/* FOOTER */}
-      <div className="text-center mt-10">
-        Don’t have an account?{" "}
-        <Link to="/signup" className="underline">
-          Sign Up
-        </Link>
+          {/* SIGNUP */}
+          <p className="text-center text-gray-200 mt-6">
+
+            Don’t have an account?{" "}
+
+            <Link
+              to="/signup"
+              className="text-yellow-300 hover:underline font-semibold"
+            >
+              Sign Up
+            </Link>
+
+          </p>
+
+        </div>
       </div>
     </div>
   );

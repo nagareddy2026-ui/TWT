@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { auth, db } from "../lib/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
+import BackButton from "./BackButton";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -13,22 +14,8 @@ export default function Signup() {
   const [city, setCity] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [agree, setAgree] = useState(false);
-
-  // 🌍 Predefined cities
-  const cities = [
-    "Bengaluru",
-    "Mysuru",
-    "Mangaluru",
-    "Hubballi",
-    "Belagavi",
-    "Chennai",
-    "Hyderabad",
-    "Mumbai",
-    "Delhi",
-    "Pune",
-    "Goa",
-  ];
 
   const handleSignup = async () => {
     // Validation
@@ -43,14 +30,14 @@ export default function Signup() {
     }
 
     try {
-      // Create Firebase Auth user
+      // Create user
       const res = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
 
-      // Save user in Firestore
+      // Save in Firestore
       await setDoc(doc(db, "users", res.user.uid), {
         email,
         gender,
@@ -61,7 +48,6 @@ export default function Signup() {
 
       alert("Account created successfully ✅");
 
-      // Redirect to login (or home if you want)
       navigate("/");
 
     } catch (err: unknown) {
@@ -75,84 +61,176 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen bg-violet-500 text-white">
+    <div
+      className="min-h-screen bg-cover bg-center flex flex-col"
+      style={{
+        backgroundImage:
+          "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee')",
+      }}
+    >
+      <BackButton />
 
-      <h1 className="text-center text-3xl mt-10">
-        Create Account
-      </h1>
+      {/* NAVBAR */}
+      <div className="flex justify-between items-center px-10 py-5">
 
-      <div className="flex justify-center mt-10">
+        <h1 className="text-3xl font-extrabold text-white">
+          ✈️ Travel Together
+        </h1>
 
-        <div className="bg-white text-black p-8 rounded w-[500px] shadow-lg">
+        <Link
+          to="/"
+          className="border border-white text-white px-5 py-2 rounded-xl hover:bg-white hover:text-black transition"
+        >
+          Login
+        </Link>
+
+      </div>
+
+      {/* SIGNUP CARD */}
+      <div className="flex flex-1 justify-center items-center px-4">
+
+        <div className="bg-white/15 backdrop-blur-xl border border-white/20 shadow-2xl rounded-3xl p-10 w-full max-w-lg text-white">
+
+          {/* TITLE */}
+          <div className="text-center mb-8">
+
+            <h1 className="text-4xl font-extrabold">
+              Create Account 🌍
+            </h1>
+
+            <p className="text-gray-200 mt-3">
+              Start your travel journey with amazing people ✈️
+            </p>
+
+          </div>
 
           {/* EMAIL */}
-          <input
-            type="email"
-            placeholder="Email *"
-            className="border p-2 w-full mb-4"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+          <div className="mb-5">
+
+            <label className="block mb-2 text-sm">
+              Email
+            </label>
+
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="w-full p-3 rounded-xl bg-white/20 border border-white/30 placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+
+          </div>
 
           {/* PASSWORD */}
-          <input
-            type="password"
-            placeholder="Password *"
-            className="border p-2 w-full mb-4"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <div className="mb-5">
+
+            <label className="block mb-2 text-sm">
+              Password
+            </label>
+
+            <div className="relative">
+
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter your password"
+                className="w-full p-3 rounded-xl bg-white/20 border border-white/30 placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-3 text-xl"
+              >
+                {showPassword ? "🙈" : "👁️"}
+              </button>
+
+            </div>
+
+          </div>
 
           {/* GENDER */}
-          <select
-            className="border p-2 w-full mb-4"
-            value={gender}
-            onChange={(e) => setGender(e.target.value)}
-          >
-            <option value="">Gender *</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
+          <div className="mb-5">
 
-          {/* CITY DROPDOWN */}
-          <select
-            className="border p-2 w-full mb-4"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-          >
-            <option value="">Select City *</option>
+            <label className="block mb-2 text-sm">
+              Gender
+            </label>
 
-            {cities.map((c) => (
-              <option key={c} value={c}>
-                {c}
+            <select
+              className="w-full p-3 rounded-xl bg-white/20 border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+            >
+              <option className="text-black" value="">
+                Select Gender
               </option>
-            ))}
-          </select>
+
+              <option className="text-black" value="Male">
+                Male
+              </option>
+
+              <option className="text-black" value="Female">
+                Female
+              </option>
+
+            </select>
+
+          </div>
+
+          {/* CITY INPUT */}
+          <div className="mb-5">
+
+            <label className="block mb-2 text-sm">
+              City
+            </label>
+
+            <input
+              type="text"
+              placeholder="Enter your city"
+              className="w-full p-3 rounded-xl bg-white/20 border border-white/30 placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+            />
+
+          </div>
 
           {/* TERMS */}
-          <div className="flex items-center gap-2 mb-4">
+          <div className="flex items-center gap-3 mb-6">
+
             <input
               type="checkbox"
               checked={agree}
               onChange={(e) => setAgree(e.target.checked)}
+              className="w-4 h-4"
             />
-            <span>I agree to terms & conditions</span>
+
+            <span className="text-sm text-gray-200">
+              I agree to terms & conditions
+            </span>
+
           </div>
 
           {/* BUTTON */}
           <button
             onClick={handleSignup}
-            className="bg-green-500 text-white w-full py-3 rounded hover:bg-green-600"
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-semibold text-lg transition duration-300 shadow-lg"
           >
             Create Account
           </button>
 
           {/* LOGIN LINK */}
-          <p className="text-center mt-4">
-            Already a member?{" "}
-            <Link to="/" className="text-blue-500">
+          <p className="text-center text-gray-200 mt-6">
+
+            Already have an account?{" "}
+
+            <Link
+              to="/"
+              className="text-yellow-300 hover:underline font-semibold"
+            >
               Login
             </Link>
+
           </p>
 
         </div>

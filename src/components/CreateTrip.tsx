@@ -14,7 +14,6 @@ export default function CreateTrip() {
   const [maxMembers, setMaxMembers] = useState<number>(1);
 
   const handleCreate = async () => {
-    // ✅ validation
     if (!title || !destination || !date || !description || !maxMembers) {
       alert("Please fill all fields");
       return;
@@ -34,14 +33,13 @@ export default function CreateTrip() {
         maxMembers: Number(maxMembers),
         members: [auth.currentUser.email],
         createdBy: auth.currentUser.email,
-        createdAt: new Date()
+        createdAt: new Date(),
       });
 
-      alert("Trip created!");
+      alert("Trip created successfully ✈️");
 
       navigate("/my-trips");
 
-      // reset
       setTitle("");
       setDestination("");
       setDate("");
@@ -55,18 +53,24 @@ export default function CreateTrip() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-10">
-          <BackButton />
+    <div
+      className="min-h-screen bg-cover bg-center bg-fixed flex items-center justify-center p-6"
+      style={{
+        backgroundImage:
+          "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee')",
+      }}
+    >
+      <BackButton />
 
-      <h1 className="text-3xl font-bold mb-6">
-        ➕ Create Trip
-      </h1>
+      <div className="bg-white/20 backdrop-blur-lg border border-white/30 shadow-2xl rounded-3xl p-10 w-full max-w-lg text-white">
 
-      <div className="bg-white p-6 rounded-xl shadow max-w-md">
+        <h1 className="text-4xl font-extrabold text-center mb-8 drop-shadow-lg">
+          ✈️ Create Your Dream Trip
+        </h1>
 
         {/* Title */}
         <input
-          className="w-full border p-2 mb-4 rounded"
+          className="w-full bg-white/20 border border-white/30 p-3 mb-4 rounded-xl placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-violet-400"
           placeholder="Trip Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -74,7 +78,7 @@ export default function CreateTrip() {
 
         {/* Destination */}
         <input
-          className="w-full border p-2 mb-4 rounded"
+          className="w-full bg-white/20 border border-white/30 p-3 mb-4 rounded-xl placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-violet-400"
           placeholder="Destination"
           value={destination}
           onChange={(e) => setDestination(e.target.value)}
@@ -83,15 +87,16 @@ export default function CreateTrip() {
         {/* Date */}
         <input
           type="date"
-          className="w-full border p-2 mb-4 rounded"
+          className="w-full bg-white/20 border border-white/30 p-3 mb-4 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-violet-400"
           value={date}
           onChange={(e) => setDate(e.target.value)}
         />
 
         {/* Description */}
         <textarea
-          className="w-full border p-2 mb-4 rounded"
+          className="w-full bg-white/20 border border-white/30 p-3 mb-4 rounded-xl placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-violet-400"
           placeholder="Trip Description"
+          rows={4}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
@@ -99,17 +104,18 @@ export default function CreateTrip() {
         {/* Max Members */}
         <input
           type="number"
-          className="w-full border p-2 mb-4 rounded"
+          className="w-full bg-white/20 border border-white/30 p-3 mb-6 rounded-xl placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-violet-400"
           placeholder="Max Members"
           value={maxMembers}
           onChange={(e) => setMaxMembers(Number(e.target.value))}
         />
 
+        {/* Button */}
         <button
           onClick={handleCreate}
-          className="w-full bg-violet-600 text-white py-2 rounded hover:bg-violet-700"
+          className="w-full bg-violet-600 hover:bg-violet-700 text-white py-3 rounded-xl font-bold text-lg transition duration-300 shadow-lg"
         >
-          Create Trip
+          🚀 Create Trip
         </button>
 
       </div>

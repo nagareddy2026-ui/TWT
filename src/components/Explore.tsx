@@ -28,7 +28,6 @@ export default function Explore() {
   useEffect(() => {
     const fetchTrips = async () => {
       try {
-        // 🔥 SORT BY NEWEST FIRST
         const q = query(
           collection(db, "trips"),
           orderBy("createdAt", "desc")
@@ -52,45 +51,64 @@ export default function Explore() {
     fetchTrips();
   }, []);
 
-  if (loading) return <p className="p-10">Loading trips...</p>;
+  if (loading)
+    return (
+      <div className="min-h-screen flex items-center justify-center text-white text-2xl bg-black">
+        Loading trips...
+      </div>
+    );
 
   return (
-    <div className="min-h-screen bg-gray-100 p-10">
-          <BackButton />
+    <div
+      className="min-h-screen bg-cover bg-center bg-fixed p-10"
+      style={{
+        backgroundImage:
+          "linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e')",
+      }}
+    >
+      <BackButton />
 
-      <h1 className="text-3xl font-bold mb-6">
-        🌍 Explore Trips (Latest First)
+      <h1 className="text-5xl font-extrabold text-white drop-shadow-lg mb-10 text-center">
+        🌍 Explore Trips
       </h1>
 
       {trips.length === 0 && (
-        <p>No trips available</p>
+        <p className="text-white text-xl text-center">
+          No trips available
+        </p>
       )}
 
-      <div className="grid md:grid-cols-3 gap-6">
-
+      <div className="grid md:grid-cols-3 gap-8">
         {trips.map((trip) => (
           <div
             key={trip.id}
-            className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition"
+            className="bg-white/20 backdrop-blur-lg p-6 rounded-2xl shadow-2xl border border-white/30 text-white hover:scale-105 transition duration-300"
           >
-            <h2 className="text-xl font-bold">{trip.title}</h2>
+            <h2 className="text-2xl font-bold mb-3">
+              {trip.title}
+            </h2>
 
-            <p className="mt-2">📍 {trip.destination}</p>
-            <p>📅 {trip.date}</p>
+            <p className="mt-2 text-lg">
+              📍 {trip.destination}
+            </p>
 
-            <p className="text-sm text-gray-500 mt-2">
-              👥 {trip.members?.length || 0} / {trip.maxMembers || 0}
+            <p className="mt-2 text-lg">
+              📅 {trip.date}
+            </p>
+
+            <p className="text-sm text-gray-200 mt-4">
+              👥 {trip.members?.length || 0} /{" "}
+              {trip.maxMembers || 0} Members
             </p>
 
             <button
               onClick={() => navigate(`/trip/${trip.id}`)}
-              className="mt-4 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+              className="mt-6 w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-semibold transition duration-300"
             >
               View Details
             </button>
           </div>
         ))}
-
       </div>
     </div>
   );
