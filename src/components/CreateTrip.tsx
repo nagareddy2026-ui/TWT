@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db, auth } from "../lib/firebase";
 import { addDoc, collection } from "firebase/firestore";
+import BackButton from "./BackButton";
 
 export default function CreateTrip() {
   const navigate = useNavigate();
@@ -55,6 +56,7 @@ export default function CreateTrip() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-10">
+          <BackButton />
 
       <h1 className="text-3xl font-bold mb-6">
         ➕ Create Trip

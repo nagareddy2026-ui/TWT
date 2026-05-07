@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { db, auth } from "../lib/firebase";
 import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
+import BackButton from "./BackButton";
 
 interface Trip {
   id: string;
@@ -90,6 +91,7 @@ export default function TripDetails() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-10">
+          <BackButton />
 
       <div className="bg-white p-6 rounded-xl shadow max-w-lg">
 

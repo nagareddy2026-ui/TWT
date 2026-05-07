@@ -7,6 +7,7 @@ import {
   orderBy
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import BackButton from "./BackButton";
 
 interface Trip {
   id: string;
@@ -55,6 +56,7 @@ export default function Explore() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-10">
+          <BackButton />
 
       <h1 className="text-3xl font-bold mb-6">
         🌍 Explore Trips (Latest First)

@@ -39,7 +39,7 @@ export default function Profile() {
 
       {/* NAVBAR */}
       <div className="flex justify-between items-center px-10 py-4 bg-white shadow">
-        <h1 className="text-2xl font-bold text-violet-600">TWT 🌍</h1>
+        <h1 className="text-2xl font-bold text-violet-600">Travel Together 🌍</h1>
 
         <div className="flex gap-3">
           <button

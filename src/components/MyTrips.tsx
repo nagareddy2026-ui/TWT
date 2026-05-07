@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import BackButton from "./BackButton";
 
 interface Trip {
   id: string;
@@ -65,6 +66,7 @@ export default function MyTrips() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-10">
+          <BackButton />
 
       <h1 className="text-3xl font-bold mb-6">📍 My Trips</h1>
 

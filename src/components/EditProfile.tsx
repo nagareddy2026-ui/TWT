@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { auth, db } from "../lib/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import BackButton from "./BackButton";
 
 export default function EditProfile() {
   const navigate = useNavigate();
@@ -65,6 +66,7 @@ export default function EditProfile() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-10">
+          <BackButton />
 
       <h1 className="text-3xl font-bold mb-6">
         ✏️ Edit Profile

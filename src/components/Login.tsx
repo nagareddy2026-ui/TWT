@@ -40,7 +40,7 @@ export default function Login() {
       {/* NAVBAR */}
       <div className="flex justify-between items-center px-10 py-4 bg-white text-black shadow">
         <h1 className="text-orange-500 text-2xl font-bold italic">
-          TWT
+          Travel Together
         </h1>
 
         <div className="flex items-center gap-6">

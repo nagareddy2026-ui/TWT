@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { db } from "../lib/firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
+import BackButton from "./BackButton";
 
 export default function EditTrip() {
   const { id } = useParams();
@@ -77,6 +78,7 @@ export default function EditTrip() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-10">
+          <BackButton />
 
       <h1 className="text-3xl font-bold mb-6">
         ✏️ Edit Trip

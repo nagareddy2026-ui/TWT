@@ -3,13 +3,13 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAvYSdEXwVeuUHZaJxDydKnr3BM96LiYlk",
-  authDomain: "couchsurfing-clone.firebaseapp.com",
-  projectId: "couchsurfing-clone",
-  storageBucket: "couchsurfing-clone.firebasestorage.app",
-  messagingSenderId: "529881179312",
-  appId: "1:529881179312:web:288955da278ddbd4110775",
-  measurementId: "G-K5KD7HP7K8"
+  apiKey: "AIzaSyCW0NXLfnWh39Trgweml_zjuAn93cLCErI",
+  authDomain: "twt-79e15.firebaseapp.com",
+  projectId: "twt-79e15",
+  storageBucket: "twt-79e15.firebasestorage.app",
+  messagingSenderId: "871563895878",
+  appId: "1:871563895878:web:37ac34eb4b6cfd75e15647",
+  measurementId: "G-R3YFW7MS9G"
 };
 const app = initializeApp(firebaseConfig);
 

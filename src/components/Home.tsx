@@ -1,4 +1,4 @@
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ export default function Home() {
       {/* NAVBAR */}
       <nav className="flex justify-between items-center px-10 py-5 bg-white text-black shadow-md">
         <h1 className="text-2xl font-bold text-violet-600">
-          TWT 🌍
+          Travel Together 🌍
         </h1>
 
         <div className="flex items-center gap-6 font-medium">
@@ -66,7 +66,7 @@ export default function Home() {
       {/* FEATURES */}
       <section id="features" className="bg-white text-black py-20 px-10">
         <h2 className="text-3xl font-bold text-center mb-12">
-          Why Choose TWT?
+          Why Choose Travel Together?
         </h2>
 
         <div className="grid md:grid-cols-3 gap-8">
@@ -138,7 +138,7 @@ export default function Home() {
         </h2>
 
         <p className="mt-3">
-          Join TWT and start traveling with people worldwide 🌍
+          Join Travel Together and start traveling with people worldwide 🌍
         </p>
 
         <button
@@ -151,7 +151,7 @@ export default function Home() {
 
       {/* FOOTER */}
       <footer className="bg-black text-white text-center py-6">
-        <p>© 2026 TWT - Travel With Together</p>
+        <p>© 2026 Travel Together</p>
       </footer>
 
     </div>

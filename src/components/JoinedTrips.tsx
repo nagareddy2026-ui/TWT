@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { db, auth } from "../lib/firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
+import BackButton from "./BackButton";
 
 interface Trip {
   id: string;
@@ -50,6 +51,7 @@ export default function JoinedTrips() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-10">
+          <BackButton />
 
       <h1 className="text-3xl font-bold mb-6">
         🤝 Joined Trips

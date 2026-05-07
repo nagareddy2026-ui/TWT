@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { auth, db } from "../lib/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
+import BackButton from "./BackButton";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -39,12 +40,13 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-100">
+          <BackButton />
 
       {/* NAVBAR */}
       <div className="flex justify-between items-center px-10 py-4 bg-white shadow">
 
         <h1 className="text-2xl font-bold text-violet-600">
-          TWT 🌍
+          Travel Together 🌍
         </h1>
 
         <div className="flex items-center gap-4">
