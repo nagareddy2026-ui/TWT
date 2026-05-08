@@ -16,6 +16,7 @@ import JoinedTrips from "./components/JoinedTrips";
 
 import TripDetails from "./components/TripDetails";
 import EditTrip from "./components/EditTrip";
+import UserProfile from "./components/UserProfile";
 
 function NotFound() {
   return (

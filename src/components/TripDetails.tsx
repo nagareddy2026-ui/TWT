@@ -9,7 +9,7 @@ interface Trip {
   title: string;
   destination: string;
   date: string;
-  description?: string;   // ✅ added
+  description?: string;
   createdBy?: string;
   userId?: string;
   members?: string[];
@@ -18,6 +18,7 @@ interface Trip {
 
 export default function TripDetails() {
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const [trip, setTrip] = useState<Trip | null>(null);
   const [loading, setLoading] = useState(true);
@@ -26,19 +27,29 @@ export default function TripDetails() {
   useEffect(() => {
     const fetchTrip = async () => {
       try {
-        if (!id) return;
+        if (!id) {
+          setLoading(false);
+          return;
+        }
 
         const ref = doc(db, "trips", id);
         const snap = await getDoc(ref);
 
         if (snap.exists()) {
+          const data = snap.data();
+
+          console.log("🔥 FIRESTORE TRIP DATA:", data); // ✅ DEBUG
+
           setTrip({
             id: snap.id,
-            ...(snap.data() as Omit<Trip, "id">),
+            ...(data as Omit<Trip, "id">),
           });
+        } else {
+          setTrip(null);
         }
       } catch (error) {
-        console.error(error);
+        console.error("Trip fetch error:", error);
+        setTrip(null);
       } finally {
         setLoading(false);
       }
@@ -73,7 +84,6 @@ export default function TripDetails() {
         members: arrayUnion(email),
       });
 
-      // ✅ Update UI instantly
       setTrip({
         ...trip,
         members: [...(trip.members || []), email],
@@ -92,51 +102,52 @@ export default function TripDetails() {
 
   return (
     <div
-  className="min-h-screen bg-cover bg-center bg-fixed p-10"
-  style={{
-    backgroundImage:
-      "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('https://images.unsplash.com/photo-1501785888041-af3ef285b470')",
-  }}
->
-          <BackButton />
+      className="min-h-screen bg-cover bg-center bg-fixed p-10"
+      style={{
+        backgroundImage:
+          "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('https://images.unsplash.com/photo-1501785888041-af3ef285b470')",
+      }}
+    >
+      <BackButton />
 
       <div className="bg-white p-6 rounded-xl shadow max-w-lg">
 
-        {/* Title */}
         <h1 className="text-3xl font-bold">{trip.title}</h1>
 
-        {/* Basic Info */}
         <p className="mt-2">📍 {trip.destination}</p>
         <p>📅 {trip.date}</p>
 
-        {/* ✅ Description */}
         <div className="mt-4 bg-gray-50 p-4 rounded">
-          <h3 className="font-semibold text-gray-800">
-            📝 Description
-          </h3>
+          <h3 className="font-semibold text-gray-800">📝 Description</h3>
           <p className="text-gray-600 mt-1">
             {trip.description || "No description provided"}
           </p>
         </div>
 
-        {/* Members Count */}
         <p className="mt-4">
           👥 {trip.members?.length || 0} / {trip.maxMembers || 0} members
         </p>
 
-        {/* Creator */}
-        <p className="text-sm text-gray-300 mt-4">
-  Created by:{" "}
+        {/* ✅ FIXED SAFE NAVIGATION */}
+        <p className="text-sm text-gray-500 mt-4">
+          Created by:{" "}
+          <span
+            onClick={() => {
+              console.log("👉 trip.userId:", trip.userId); // DEBUG
 
-  <span
-    onClick={() => navigate(`/user/${trip.userId}`)}
-    className="text-blue-400 cursor-pointer hover:underline"
-  >
-    {trip.createdBy}
-  </span>
-</p>
+              if (!trip.userId) {
+                alert("User ID missing in Firestore trip data");
+                return;
+              }
 
-        {/* Members List */}
+              navigate(`/user/${trip.userId}`);
+            }}
+            className="text-blue-500 cursor-pointer hover:underline"
+          >
+            {trip.createdBy || "Unknown"}
+          </span>
+        </p>
+
         <div className="mt-4">
           <h3 className="font-semibold">Members:</h3>
           <ul className="text-sm mt-2">
@@ -146,7 +157,6 @@ export default function TripDetails() {
           </ul>
         </div>
 
-        {/* Join Button */}
         <button
           onClick={handleJoin}
           className="mt-6 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"

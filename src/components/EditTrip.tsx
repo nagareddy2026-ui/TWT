@@ -16,7 +16,6 @@ export default function EditTrip() {
   const [description, setDescription] = useState("");
   const [maxMembers, setMaxMembers] = useState<number>(1);
 
-  // 🔥 Fetch trip data
   useEffect(() => {
     const fetchTrip = async () => {
       if (!id) return;
@@ -47,7 +46,6 @@ export default function EditTrip() {
     fetchTrip();
   }, [id, navigate]);
 
-  // 🔥 Update trip
   const handleUpdate = async () => {
     if (!title || !destination || !date || !description) {
       alert("Fill all fields");
@@ -65,7 +63,6 @@ export default function EditTrip() {
 
       alert("Trip updated!");
       navigate("/my-trips");
-
     } catch (error) {
       console.error(error);
       alert("Failed to update trip");
@@ -73,28 +70,38 @@ export default function EditTrip() {
   };
 
   if (loading) {
-    return <p className="p-10">Loading...</p>;
+    return (
+      <div className="h-screen flex items-center justify-center bg-black text-white">
+        Loading...
+      </div>
+    );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-10">
-          <BackButton />
+    <div
+      className="min-h-screen flex items-center justify-center p-6 bg-cover bg-center"
+      style={{
+        backgroundImage:
+          "linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee')",
+      }}
+    >
+      <BackButton />
 
-      <h1 className="text-3xl font-bold mb-6">
-        ✏️ Edit Trip
-      </h1>
+      <div className="bg-white/15 backdrop-blur-xl border border-white/30 shadow-2xl rounded-3xl p-8 w-full max-w-lg text-white">
 
-      <div className="bg-white p-6 rounded-xl shadow max-w-md">
+        <h1 className="text-3xl font-extrabold text-center mb-6 drop-shadow-lg">
+          ✏️ Edit Your Trip
+        </h1>
 
         <input
-          className="w-full border p-2 mb-4"
+          className="w-full p-3 mb-4 rounded-xl bg-white/20 border border-white/30 placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
           placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
 
         <input
-          className="w-full border p-2 mb-4"
+          className="w-full p-3 mb-4 rounded-xl bg-white/20 border border-white/30 placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
           placeholder="Destination"
           value={destination}
           onChange={(e) => setDestination(e.target.value)}
@@ -102,13 +109,13 @@ export default function EditTrip() {
 
         <input
           type="date"
-          className="w-full border p-2 mb-4"
+          className="w-full p-3 mb-4 rounded-xl bg-white/20 border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
           value={date}
           onChange={(e) => setDate(e.target.value)}
         />
 
         <textarea
-          className="w-full border p-2 mb-4"
+          className="w-full p-3 mb-4 rounded-xl bg-white/20 border border-white/30 placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
           placeholder="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -116,7 +123,7 @@ export default function EditTrip() {
 
         <input
           type="number"
-          className="w-full border p-2 mb-4"
+          className="w-full p-3 mb-6 rounded-xl bg-white/20 border border-white/30 placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
           placeholder="Max Members"
           value={maxMembers}
           onChange={(e) => setMaxMembers(Number(e.target.value))}
@@ -124,9 +131,9 @@ export default function EditTrip() {
 
         <button
           onClick={handleUpdate}
-          className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600"
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-bold shadow-lg transition"
         >
-          Update Trip
+          💾 Save Changes
         </button>
 
       </div>

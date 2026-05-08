@@ -14,7 +14,7 @@ export default function CreateTrip() {
   const [maxMembers, setMaxMembers] = useState<number>(1);
 
   const handleCreate = async () => {
-    if (!title || !destination || !date || !description || !maxMembers) {
+    if (!title || !destination || !date || !description) {
       alert("Please fill all fields");
       return;
     }
@@ -25,15 +25,20 @@ export default function CreateTrip() {
     }
 
     try {
+      const user = auth.currentUser;
+
       await addDoc(collection(db, "trips"), {
         title,
         destination,
         date,
         description,
         maxMembers: Number(maxMembers),
-        members: [auth.currentUser.email],
-        createdBy: auth.currentUser.email,
-        userId: auth.currentUser?.uid,
+
+        // ✅ FIXED CONSISTENT DATA MODEL
+        members: [user.uid],           // use UID instead of email
+        createdBy: user.displayName || user.email,
+        userId: user.uid,             // IMPORTANT for profile navigation
+
         createdAt: new Date(),
       });
 
@@ -65,56 +70,50 @@ export default function CreateTrip() {
 
       <div className="bg-white/20 backdrop-blur-lg border border-white/30 shadow-2xl rounded-3xl p-10 w-full max-w-lg text-white">
 
-        <h1 className="text-4xl font-extrabold text-center mb-8 drop-shadow-lg">
+        <h1 className="text-4xl font-extrabold text-center mb-8">
           ✈️ Create Your Dream Trip
         </h1>
 
-        {/* Title */}
         <input
-          className="w-full bg-white/20 border border-white/30 p-3 mb-4 rounded-xl placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-violet-400"
+          className="w-full p-3 mb-4 rounded-xl text-black"
           placeholder="Trip Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
 
-        {/* Destination */}
         <input
-          className="w-full bg-white/20 border border-white/30 p-3 mb-4 rounded-xl placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-violet-400"
+          className="w-full p-3 mb-4 rounded-xl text-black"
           placeholder="Destination"
           value={destination}
           onChange={(e) => setDestination(e.target.value)}
         />
 
-        {/* Date */}
         <input
           type="date"
-          className="w-full bg-white/20 border border-white/30 p-3 mb-4 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-violet-400"
+          className="w-full p-3 mb-4 rounded-xl text-black"
           value={date}
           onChange={(e) => setDate(e.target.value)}
         />
 
-        {/* Description */}
         <textarea
-          className="w-full bg-white/20 border border-white/30 p-3 mb-4 rounded-xl placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-violet-400"
+          className="w-full p-3 mb-4 rounded-xl text-black"
           placeholder="Trip Description"
           rows={4}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
 
-        {/* Max Members */}
         <input
           type="number"
-          className="w-full bg-white/20 border border-white/30 p-3 mb-6 rounded-xl placeholder-gray-200 text-white focus:outline-none focus:ring-2 focus:ring-violet-400"
+          className="w-full p-3 mb-6 rounded-xl text-black"
           placeholder="Max Members"
           value={maxMembers}
           onChange={(e) => setMaxMembers(Number(e.target.value))}
         />
 
-        {/* Button */}
         <button
           onClick={handleCreate}
-          className="w-full bg-violet-600 hover:bg-violet-700 text-white py-3 rounded-xl font-bold text-lg transition duration-300 shadow-lg"
+          className="w-full bg-violet-600 hover:bg-violet-700 text-white py-3 rounded-xl font-bold"
         >
           🚀 Create Trip
         </button>
