@@ -33,6 +33,7 @@ export default function CreateTrip() {
         maxMembers: Number(maxMembers),
         members: [auth.currentUser.email],
         createdBy: auth.currentUser.email,
+        userId: auth.currentUser?.uid,
         createdAt: new Date(),
       });
 

@@ -38,6 +38,7 @@ export const router = createBrowserRouter([
   // 👤 PROFILE
   { path: "/profile", element: <Profile /> },
   { path: "/edit-profile", element: <EditProfile /> },
+  { path: "/user/:id", element: <UserProfile /> },
 
   // ✈️ TRIPS
   { path: "/explore", element: <Explore /> },

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { db, auth } from "../lib/firebase";
 import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import BackButton from "./BackButton";
@@ -11,12 +11,13 @@ interface Trip {
   date: string;
   description?: string;   // ✅ added
   createdBy?: string;
+  userId?: string;
   members?: string[];
   maxMembers?: number;
 }
 
 export default function TripDetails() {
-  const { id } = useParams();
+  const navigate = useNavigate();
 
   const [trip, setTrip] = useState<Trip | null>(null);
   const [loading, setLoading] = useState(true);
@@ -124,9 +125,16 @@ export default function TripDetails() {
         </p>
 
         {/* Creator */}
-        <p className="text-sm text-gray-500 mt-2">
-          Created by: {trip.createdBy}
-        </p>
+        <p className="text-sm text-gray-300 mt-4">
+  Created by:{" "}
+
+  <span
+    onClick={() => navigate(`/user/${trip.userId}`)}
+    className="text-blue-400 cursor-pointer hover:underline"
+  >
+    {trip.createdBy}
+  </span>
+</p>
 
         {/* Members List */}
         <div className="mt-4">
