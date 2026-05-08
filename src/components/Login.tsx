@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../lib/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
-
 export default function Login() {
   const navigate = useNavigate();
 
@@ -11,9 +10,16 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
+  // ✅ NEW ERROR STATE
+  const [errorMsg, setErrorMsg] = useState("");
+
   const handleLogin = async () => {
+
+    // clear old error
+    setErrorMsg("");
+
     if (!email || !password) {
-      alert("Enter email and password");
+      setErrorMsg("Please enter email and password");
       return;
     }
 
@@ -24,12 +30,29 @@ export default function Login() {
 
       navigate("/home");
 
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        console.error(err);
-        alert(err.message);
-      } else {
-        alert("Login failed");
+    } catch (err: any) {
+
+      console.error(err);
+
+      // ✅ FRIENDLY ERRORS
+      if (
+        err.code === "auth/invalid-credential" ||
+        err.code === "auth/wrong-password" ||
+        err.code === "auth/user-not-found"
+      ) {
+        setErrorMsg("Incorrect email or password");
+      }
+
+      else if (err.code === "auth/invalid-email") {
+        setErrorMsg("Invalid email format");
+      }
+
+      else if (err.code === "auth/too-many-requests") {
+        setErrorMsg("Too many attempts. Try again later.");
+      }
+
+      else {
+        setErrorMsg("Login failed. Please try again.");
       }
     }
   };
@@ -87,6 +110,13 @@ export default function Login() {
             </p>
 
           </div>
+
+          {/* ✅ ERROR MESSAGE */}
+          {errorMsg && (
+            <div className="bg-red-500/20 border border-red-400 text-red-200 p-3 rounded-xl mb-5 text-sm">
+              {errorMsg}
+            </div>
+          )}
 
           {/* EMAIL */}
           <div className="mb-5">
